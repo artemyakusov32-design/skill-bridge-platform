@@ -1,0 +1,8 @@
+# Игнорируем установленные зависимости npm
+node_modules/
+
+# Не нужно хранить демо-данные пользователей в git
+localStorage/
+teammatch_users
+teammatch_projects
+teammatch_session
