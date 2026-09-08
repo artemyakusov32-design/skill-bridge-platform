@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "description": "Frontend for TeamMatch — student team finder platform.",
   "scripts": {
-    /* 🚀 Эта команда запускает сервер на порту 5000 */
-    "start": "npx serve public --listen 5000",
-    
-    /* ⚙️ Эта команда копирует файлы из src в папку public 
-       Это нужно только для CI/CD, чтобы собрать проект перед деплоем */
+    /* ⚙ Эта команда копирует файлы из src в папку public */
+    /* Это нужно только для CI/CD, чтобы собрать проект перед деплоем */
     "build": "cp -r ./src/* ./public/"
   },
   "devDependencies": {}
