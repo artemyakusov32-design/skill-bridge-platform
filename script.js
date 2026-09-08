@@ -133,120 +133,7 @@ function showScreen(screenName) {
 function initAuth() {
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
-    const authTabs =
-
-
-sers[userIndex],
-            name: document.getElementById('profileName').value.trim(),
-            faculty: document.getElementById('profileFaculty').value.trim(),
-            course: document.getElementById('profileCourse').value.trim(),
-            skills: document.getElementById('profileSkills').value.trim(),
-            about: document.getElementById('profileAbout').value.trim(),
-            isProfileComplete: true
-        };
-        saveUsers(users);
-        // Обновить сессию, чтобы текущий пользователь обновился
-        setCurrentUser(user.id);
-        // Показать ленту
-        showScreen('feed');
-    });
-}
-
-// ========== СОЗДАНИЕ ПРОЕКТА ==========
-function resetCreateForm() {
-    const form = document.getElementById('createProjectForm');
-    if (form) form.reset();
-    const rolesContainer = document.getElementById('rolesContainer');
-    // Оставить одну пустую строку роли
-    rolesContainer.innerHTML = `
-        <div class="role-row">
-            <input type="text" placeholder="Название роли" class="role-title" value="Мобильный разработчик (Flutter)" required>
-            <input type="number" placeholder="Кол-во" min="1" value="1" class="role-count" required>
-            <button type="button" class="remove-role" title="Удалить роль">×</button>
-        </div>
-    `;
-    attachRoleEvents();
-}
-
-function addRoleRow(title = '', count = 1) {
-    const rolesContainer = document.getElementById('rolesContainer');
-    const row = document.createElement('div');
-    row.className = 'role-row';
-    row.innerHTML = `
-        <input type="text" placeholder="Название роли" class="role-title" value="${title}" required>
-        <input type="number" placeholder="Кол-во" min="1" value="${count}" class="role-count" required>
-        <button type="button" class="remove-role" title="Удалить роль">×</button>
-    `;
-    rolesContainer.appendChild(row);
-    attachRoleEvents();
-}
-
-function attachRoleEvents() {
-    document.querySelectorAll('.remove-role').forEach(btn => {
-        btn.onclick = function() {
-            const row = this.parentElement;
-            if (document.querySelectorAll('.role-row').length > 1) {
-                row.remove();
-            } else {
-                alert('Должна быть хотя бы одна роль');
-            }
-        };
-    });
-}
-
-function initCreateProject() {
-    const form = document.getElementById('createProjectForm');
-    const addRoleBtn = document.getElementById('addRoleBtn');
-    const createProjectBtn = document.getElementById('createProjectBtn');
-
-    addRoleBtn.addEventListener('click', () => addRoleRow());
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const title = document.getElementById('projectTitle').value.trim();
-        const description = document.getElementById('projectDescription').value.trim();
-        const roles = [];
-        document.querySelectorAll('.role-row').forEach(row => {
-            const roleTitle = row.querySelector('.role-title').value.trim();
-            const roleCount = parseInt(row.querySelector('.role-count').value);
-            if (roleTitle && roleCount > 0) {
-                roles.push({
-                    title: roleTitle,
-                    count: roleCount,
-                    filled: 0
-                });
-            }
-        });
-        if (!title || !description || roles.length === 0) {
-            alert('Заполните все поля и добавьте хотя бы одну роль');
-            return;
-        }
-        const currentUser = getCurrentUser();
-        if (!currentUser) {
-            alert('Необходимо войти');
-            return;
-        }
-        const project = {
-            id: generateId(),
-            ownerId: currentUser.id,
-            title,
-            description,
-            roles,
-            applicants: [],
-            createdAt: new Date().toISOString(),
-            status: 'active'
-        };
-        const projects = getProjects();
-        projects.unshift(project);
-        saveProjects(projects);
-        showScreen('feed');
-        renderProjects();
-    });
-
-    createProjectBtn.addEventListener('click', () => {
-
-
-document.querySelectorAll('.auth-tab');
+    const authTabs = document.querySelectorAll('.auth-tab');
 
     // Переключение вкладок
     authTabs.forEach(tab => {
@@ -358,12 +245,115 @@ function renderProfile() {
         const userIndex = users.findIndex(u => u.id === user.id);
         if (userIndex === -1) return;
         users[userIndex] = {
-            ...u
-Parking Page
-u.email
+            ...users[userIndex],
+            name: document.getElementById('profileName').value.trim(),
+            faculty: document.getElementById('profileFaculty').value.trim(),
+            course: document.getElementById('profileCourse').value.trim(),
+            skills: document.getElementById('profileSkills').value.trim(),
+            about: document.getElementById('profileAbout').value.trim(),
+            isProfileComplete: true
+        };
+        saveUsers(users);
+        // Обновить сессию, чтобы текущий пользователь обновился
+        setCurrentUser(user.id);
+        // Показать ленту
+        showScreen('feed');
+    });
+}
 
+// ========== СОЗДАНИЕ ПРОЕКТА ==========
+function resetCreateForm() {
+    const form = document.getElementById('createProjectForm');
+    if (form) form.reset();
+    const rolesContainer = document.getElementById('rolesContainer');
+    // Оставить одну пустую строку роли
+    rolesContainer.innerHTML = `
+        <div class="role-row">
+            <input type="text" placeholder="Название роли" class="role-title" value="Мобильный разработчик (Flutter)" required>
+            <input type="number" placeholder="Кол-во" min="1" value="1" class="role-count" required>
+            <button type="button" class="remove-role" title="Удалить роль">×</button>
+        </div>
+    `;
+    attachRoleEvents();
+}
 
-showScreen('create');
+function addRoleRow(title = '', count = 1) {
+    const rolesContainer = document.getElementById('rolesContainer');
+    const row = document.createElement('div');
+    row.className = 'role-row';
+    row.innerHTML = `
+        <input type="text" placeholder="Название роли" class="role-title" value="${title}" required>
+        <input type="number" placeholder="Кол-во" min="1" value="${count}" class="role-count" required>
+        <button type="button" class="remove-role" title="Удалить роль">×</button>
+    `;
+    rolesContainer.appendChild(row);
+    attachRoleEvents();
+}
+
+function attachRoleEvents() {
+    document.querySelectorAll('.remove-role').forEach(btn => {
+        btn.onclick = function() {
+            const row = this.parentElement;
+            if (document.querySelectorAll('.role-row').length > 1) {
+                row.remove();
+            } else {
+                alert('Должна быть хотя бы одна роль');
+            }
+        };
+    });
+}
+
+function initCreateProject() {
+    const form = document.getElementById('createProjectForm');
+    const addRoleBtn = document.getElementById('addRoleBtn');
+    const createProjectBtn = document.getElementById('createProjectBtn');
+
+    addRoleBtn.addEventListener('click', () => addRoleRow());
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('projectTitle').value.trim();
+        const description = document.getElementById('projectDescription').value.trim();
+        const roles = [];
+        document.querySelectorAll('.role-row').forEach(row => {
+            const roleTitle = row.querySelector('.role-title').value.trim();
+            const roleCount = parseInt(row.querySelector('.role-count').value);
+            if (roleTitle && roleCount > 0) {
+                roles.push({
+                    title: roleTitle,
+                    count: roleCount,
+                    filled: 0
+                });
+            }
+        });
+        if (!title || !description || roles.length === 0) {
+            alert('Заполните все поля и добавьте хотя бы одну роль');
+            return;
+        }
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+            alert('Необходимо войти');
+            return;
+        }
+        const project = {
+            id: generateId(),
+            ownerId: currentUser.id,
+            title,
+            description,
+            roles,
+            applicants: [],
+            createdAt: new Date().toISOString(),
+            status: 'active'
+        };
+        const projects = getProjects();
+        projects.unshift(project);
+        saveProjects(projects);
+        showScreen('feed');
+        renderProjects();
+    });
+
+    createProjectBtn.addEventListener('click', () => {
+        showScreen('create');
     });
 }
 
@@ -455,12 +445,202 @@ function openProjectDetail(projectId) {
                             <label>Сопроводительное сообщение</label>
                             <textarea id="applyMessage" rows="3" placeholder="Расскажите о себе" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primar
-Currentuser
-currentUser.id
+                        <button type="submit" class="btn btn-primary">Отправить отклик</button>
+                    </form>
+                </div>
+            ` : ''}
+            ${isOwner && project.applicants.length > 0 ? `
+                <div class="applicants-section">
+                    <h4>Заявки (${project.applicants.filter(a => a.status === 'pending').length})</h4>
+                    ${project.applicants.map(a => {
+        const applicantUser = getUsers().find(u => u.id === a.userId);
+        const userName = applicantUser ? applicantUser.name : 'Неизвестный';
+        return `
+                            <div class="applicant-item">
+                                <div class="applicant-info">
+                                    <span class="applicant-name" data-user-id="${a.userId}">${userName}</span>
+                                    <span class="applicant-role">${a.roleTitle}</span>
+                                    <p class="applicant-message">${a.message}</p>
+                                    <span class="applicant-status">${a.status === 'pending' ? 'Ожидает' : (a.status === 'accepted' ? 'Принят' : 'Отклонён')}</span>
+                                </div>
+                                ${a.status === 'pending' ? `
+                                    <button class="btn btn-success btn-sm accept-btn" data-user-id="${a.userId}" data-role="${a.roleTitle}">Принять</button>
+                                ` : ''}
+                            </div>
+                        `;
+    }).join('')}
+                </div>
+            ` : ''}
+            ${isOwner && project.applicants.length === 0 ? '<p>Заявок пока нет.</p>' : ''}
+        </div>
+    `;
 
+    showScreen('projectDetail');
 
-{user.faculty || 'Не указан'}</p>
+    document.getElementById('backToFeedBtn').addEventListener('click', () => showScreen('feed'));
+
+    const applyForm = document.getElementById('applyForm');
+    if (applyForm) {
+        applyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const roleTitle = document.getElementById('applyRole').value;
+            const message = document.getElementById('applyMessage').value.trim();
+            if (!message) {
+                alert('Введите сообщение');
+                return;
+            }
+            const newApplicant = {
+                userId: currentUser.id,
+                roleTitle,
+                message,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            const projects = getProjects();
+            const proj = projects.find(p => p.id === projectId);
+            if (!proj) return;
+            proj.applicants.push(newApplicant);
+            saveProjects(projects);
+            openProjectDetail(projectId);
+        });
+    }
+
+    document.querySelectorAll('.accept-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const userId = btn.dataset.userId;
+            const roleTitle = btn.dataset.role;
+            const projects = getProjects();
+            const proj = projects.find(p => p.id === projectId);
+            if (!proj) return;
+            const applicant = proj.applicants.find(a => a.userId === userId && a.roleTitle === roleTitle && a.status === 'pending');
+            if (applicant) {
+                applicant.status = 'accepted';
+                const role = proj.roles.find(r => r.title === roleTitle);
+                if (role && role.filled < role.count) {
+                    role.filled += 1;
+                } else {
+                    alert('Для этой роли уже заполнены все места');
+                    return;
+                }
+                saveProjects(projects);
+                updateNotificationBadge();
+                openProjectDetail(projectId);
+            }
+        });
+    });
+
+    document.querySelectorAll('.applicant-name').forEach(nameSpan => {
+        nameSpan.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const userId = nameSpan.dataset.userId;
+            openUserProfileModal(userId);
+        });
+    });
+}
+
+// ========== УВЕДОМЛЕНИЯ ==========
+function updateNotificationBadge() {
+    const currentUser = getCurrentUser();
+    const badge = document.getElementById('notificationBadge');
+    if (!currentUser) {
+        badge.style.display = 'none';
+        return;
+    }
+    const projects = getProjects();
+    const ownedProjects = projects.filter(p => p.ownerId === currentUser.id);
+    const pendingCount = ownedProjects.reduce((sum, proj) => {
+        return sum + proj.applicants.filter(a => a.status === 'pending').length;
+    }, 0);
+    if (pendingCount > 0) {
+        badge.textContent = pendingCount;
+        badge.style.display = 'inline-block';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+function openNotificationsModal() {
+    const modal = document.getElementById('notificationsModal');
+    const list = document.getElementById('notificationsList');
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+    const projects = getProjects();
+    const ownedProjects = projects.filter(p => p.ownerId === currentUser.id);
+    const pendingApplicants = [];
+    ownedProjects.forEach(proj => {
+        proj.applicants.forEach(a => {
+            if (a.status === 'pending') {
+                pendingApplicants.push({
+                    ...a,
+                    projectTitle: proj.title,
+                    projectId: proj.id
+                });
+            }
+        });
+    });
+    if (pendingApplicants.length === 0) {
+        list.innerHTML = '<p class="empty-state">Нет новых уведомлений</p>';
+    } else {
+        list.innerHTML = pendingApplicants.map(a => {
+            const user = getUsers().find(u => u.id === a.userId);
+            const userName = user ? user.name : 'Неизвестный';
+            return `
+                <div class="notification-item">
+                    <div class="notification-text">
+                        <span class="notification-user" data-user-id="${a.userId}">${userName}</span>
+                        откликнулся на проект "<strong>${a.projectTitle}</strong>" на роль "${a.roleTitle}"
+                        <p class="notification-message">"${a.message}"</p>
+                    </div>
+                    <button class="btn btn-success btn-sm accept-notification-btn" data-project-id="${a.projectId}" data-user-id="${a.userId}" data-role="${a.roleTitle}">Принять</button>
+                </div>
+            `;
+        }).join('');
+    }
+    modal.style.display = 'flex';
+
+    document.querySelectorAll('.accept-notification-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const projectId = btn.dataset.projectId;
+            const userId = btn.dataset.userId;
+            const roleTitle = btn.dataset.role;
+            const projects = getProjects();
+            const proj = projects.find(p => p.id === projectId);
+            if (!proj) return;
+            const applicant = proj.applicants.find(a => a.userId === userId && a.roleTitle === roleTitle && a.status === 'pending');
+            if (applicant) {
+                applicant.status = 'accepted';
+                const role = proj.roles.find(r => r.title === roleTitle);
+                if (role && role.filled < role.count) {
+                    role.filled += 1;
+                    saveProjects(projects);
+                    updateNotificationBadge();
+                    openNotificationsModal();
+                } else {
+                    alert('Место уже заполнено');
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.notification-user').forEach(el => {
+        el.addEventListener('click', () => {
+            const userId = el.dataset.userId;
+            closeModal('notificationsModal');
+            openUserProfileModal(userId);
+        });
+    });
+}
+
+// ========== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ (ПРОСМОТР) ==========
+function openUserProfileModal(userId) {
+    const user = getUsers().find(u => u.id === userId);
+    if (!user) return;
+    const content = document.getElementById('userProfileContent');
+    content.innerHTML = `
+        <div class="user-profile-view">
+            <h3>${user.name}</h3>
+            <p><strong>Факультет:</strong> ${user.faculty || 'Не указан'}</p>
             <p><strong>Курс:</strong> ${user.course || 'Не указан'}</p>
             <p><strong>Навыки:</strong> ${user.skills || 'Не указаны'}</p>
             <p><strong>О себе:</strong> ${user.about || 'Нет информации'}</p>
@@ -575,212 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-nBadge() {
-    const currentUser = getCurrentUser();
-    const badge = document.getElementById('notificationBadge');
-    if (!currentUser) {
-        badge.style.display = 'none';
-        return;
-    }
-    const projects = getProjects();
-    const ownedProjects = projects.filter(p => p.ownerId === currentUser.id);
-    const pendingCount = ownedProjects.reduce((sum, proj) => {
-        return sum + proj.applicants.filter(a => a.status === 'pending').length;
-    }, 0);
-    if (pendingCount > 0) {
-        badge.textContent = pendingCount;
-        badge.style.display = 'inline-block';
-    } else {
-        badge.style.display = 'none';
-    }
-}
-
-function openNotificationsModal() {
-    const modal = document.getElementById('notificationsModal');
-    const list = document.getElementById('notificationsList');
-    const currentUser = getCurrentUser();
-    if (!currentUser) return;
-    const projects = getProjects();
-    const ownedProjects = projects.filter(p => p.ownerId === currentUser.id);
-    const pendingApplicants = [];
-    ownedProjects.forEach(proj => {
-        proj.applicants.forEach(a => {
-            if (a.status === 'pending') {
-                pendingApplicants.push({
-                    ...a,
-                    projectTitle: proj.title,
-                    projectId: proj.id
-                });
-            }
-        });
-    });
-    if (pendingApplicants.length === 0) {
-        list.innerHTML = '<p class="empty-state">Нет новых уведомлений</p>';
-    } else {
-        list.innerHTML = pendingApplicants.map(a => {
-            const user = getUsers().find(u => u.id === a.userId);
-            const userName = user ? user.name : 'Неизвестный';
-            return `
-                <div class="notification-item">
-                    <div class="notification-text">
-                        <span class="notification-user" data-user-id="${a.userId}">${userName}</span>
-                        откликнулся на проект "<strong>${a.projectTitle}</strong>" на роль "${a.roleTitle}"
-                        <p class="notification-message">"${a.message}"</p>
-                    </div>
-                    <button class="btn btn-success btn-sm accept-notification-btn" data-project-id="${a.projectId}" data-user-id="${a.userId}" data-role="${a.roleTitle}">Принять</button>
-                </div>
-            `;
-        }).join('');
-    }
-    modal.style.display = 'flex';
-
-    document.querySelectorAll('.accept-notification-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const projectId = btn.dataset.projectId;
-            const userId = btn.dataset.userId;
-            const roleTitle = btn.dataset.role;
-            const projects = getProjects();
-            const proj = projects.find(p => p.id === projectId);
-            if (!proj) return;
-            const applicant = proj.applicants.find(a => a.userId === userId && a.roleTitle === roleTitle && a.status === 'pending');
-            if (applicant) {
-                applicant.status = 'accepted';
-                const role = proj.roles.find(r => r.title === roleTitle);
-                if (role && role.filled < role.count) {
-                    role.filled += 1;
-                    saveProjects(projects);
-                    updateNotificationBadge();
-                    openNotificationsModal();
-                } else {
-                    alert('Место уже заполнено');
-                }
-            }
-        });
-    });
-
-    document.querySelectorAll('.notification-user').forEach(el => {
-        el.addEventListener('click', () => {
-            const userId = el.dataset.userId;
-            closeModal('notificationsModal');
-            openUserProfileModal(userId);
-        });
-    });
-}
-
-// ========== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ (ПРОСМОТР) ==========
-function openUserProfileModal(userId) {
-    const user = getUsers().find(u => u.id === userId);
-    if (!user) return;
-    const content = document.getElementById('userProfileContent');
-    content.innerHTML = `
-        <div class="user-profile-view">
-            <h3>${user.name}</h3>
-            <p><strong>Факультет:</strong> $
-
-
-y">Отправить отклик</button>
-                    </form>
-                </div>
-            ` : ''}
-            ${isOwner && project.applicants.length > 0 ? `
-                <div class="applicants-section">
-                    <h4>Заявки (${project.applicants.filter(a => a.status === 'pending').length})</h4>
-                    ${project.applicants.map(a => {
-        const applicantUser = getUsers().find(u => u.id === a.userId);
-        const userName = applicantUser ? applicantUser.name : 'Неизвестный';
-        return `
-                            <div class="applicant-item">
-                                <div class="applicant-info">
-                                    <span class="applicant-name" data-user-id="${a.userId}">${userName}</span>
-                                    <span class="applicant-role">${a.roleTitle}</span>
-                                    <p class="applicant-message">${a.message}</p>
-                                    <span class="applicant-status">${a.status === 'pending' ? 'Ожидает' : (a.status === 'accepted' ? 'Принят' : 'Отклонён')}</span>
-                                </div>
-                                ${a.status === 'pending' ? `
-                                    <button class="btn btn-success btn-sm accept-btn" data-user-id="${a.userId}" data-role="${a.roleTitle}">Принять</button>
-                                ` : ''}
-                            </div>
-                        `;
-    }).join('')}
-                </div>
-            ` : ''}
-            ${isOwner && project.applicants.length === 0 ? '<p>Заявок пока нет.</p>' : ''}
-        </div>
-    `;
-
-    showScreen('projectDetail');
-
-    document.getElementById('backToFeedBtn').addEventListener('click', () => showScreen('feed'));
-
-    const applyForm = document.getElementById('applyForm');
-    if (applyForm) {
-        applyForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const roleTitle = document.getElementById('applyRole').value;
-            const message = document.getElementById('applyMessage').value.trim();
-            if (!message) {
-                alert('Введите сообщение');
-                return;
-            }
-            const newApplicant = {
-                userId: currentUser.id,
-                roleTitle,
-                message,
-                status: 'pending',
-                createdAt: new Date().toISOString()
-            };
-            const projects = getProjects();
-            const proj = projects.find(p => p.id === projectId);
-            if (!proj) return;
-            proj.applicants.push(newApplicant);
-            saveProjects(projects);
-            openProjectDetail(projectId);
-        });
-    }
-
-    document.querySelectorAll('.accept-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const userId = btn.dataset.userId;
-            const roleTitle = btn.dataset.role;
-            const projects = getProjects();
-            const proj = projects.find(p => p.id === projectId);
-            if (!proj) return;
-            const applicant = proj.applicants.find(a => a.userId === userId && a.roleTitle === roleTitle && a.status === 'pending');
-            if (applicant) {
-                applicant.status = 'accepted';
-                const role = proj.roles.find(r => r.title === roleTitle);
-                if (role && role.filled < role.count) {
-                    role.filled += 1;
-                } else {
-                    alert('Для этой роли уже заполнены все места');
-                    return;
-                }
-                saveProjects(projects);
-                updateNotificationBadge();
-                openProjectDetail(projectId);
-            }
-        });
-    });
-
-    document.querySelectorAll('.applicant-name').forEach(nameSpan => {
-        nameSpan.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const userId = nameSpan.dataset.userId;
-            openUserProfileModal(userId);
-        });
-    });
-}
-
-// ========== УВЕДОМЛЕНИЯ ==========
-function updateNotificatio
-Currentuser
-Currentuser
-currentUser.id
-
-
-document.getElementById('notificationBtn').addEventListener('click', () => {
+    document.getElementById('notificationBtn').addEventListener('click', () => {
         const currentUser = getCurrentUser();
         if (!currentUser) {
             alert('Войдите в систему');
