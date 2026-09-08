@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "Frontend for TeamMatch — student team finder platform.",
   "scripts": {
-    /* ⚙ Эта команда копирует файлы из src в папку public */
-    /* Это нужно только для CI/CD, чтобы собрать проект перед деплоем */
     "build": "cp -r ./src/* ./public/"
   },
   "devDependencies": {}
