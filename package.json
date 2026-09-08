@@ -1,9 +1,9 @@
 {
-  "name": "team-match",
+  "name": "teammatch-hakaton",
   "version": "1.0.0",
-  "description": "Frontend for TeamMatch — student team finder platform.",
+  "description": "Frontend for TeamMatch – student team finder platform.",
   "scripts": {
-    "build": "cp -r ./src/* ./public/"
+    "start": "echo 'No server needed for GitHub Pages'"
   },
   "devDependencies": {}
 }
